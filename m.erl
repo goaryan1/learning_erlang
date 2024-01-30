@@ -4,7 +4,7 @@
 -module(m).
 -export([init/0, insert_rows/1, print_grid/0, mark_obstacle/2, mark_size/2]).
 
--record(grid, {row_number = 0, c1 = false, c2 = false, c3 = false, c4 = false, c5 = false}).
+-record(grid, {row_number = 0, c1 = false, c2 = false, c3 = false, c4 = false, c5 = false, c6 = false, c7 = false, c8 = false, c9 = false, c10 = false}).
 
 init() ->
     mnesia:start(),
@@ -18,7 +18,7 @@ insert_rows(N) ->
 
 insert_row(RowNumber) ->
     Trans = fun() ->
-    mnesia:write(#grid{row_number = RowNumber, c1 = false, c2 = false, c3 = false, c4 = false, c5 = false}) end,
+    mnesia:write(#grid{row_number = RowNumber}) end,
     mnesia:transaction(Trans).
 
 print_grid() ->
@@ -43,6 +43,11 @@ mark_obstacle(Row, Column) ->
                 3 -> mnesia:write(P#grid{c3 = true});
                 4 -> mnesia:write(P#grid{c4 = true});
                 5 -> mnesia:write(P#grid{c5 = true});
+                6 -> mnesia:write(P#grid{c6 = true});
+                7 -> mnesia:write(P#grid{c7 = true});
+                8 -> mnesia:write(P#grid{c8 = true});
+                9 -> mnesia:write(P#grid{c9 = true});
+                10 -> mnesia:write(P#grid{c10 = true});
                 _ -> io:format("Out of bound~n")
             end
         end,
@@ -54,4 +59,3 @@ mark_size(Height, Width) ->
     lists:foreach(fun(ColNumber) ->
         mark_obstacle(Height+1, ColNumber) end, lists:seq(1, Width+1)).
     
-
