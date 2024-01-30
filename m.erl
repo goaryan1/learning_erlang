@@ -36,12 +36,13 @@ print_row(RowNumber) ->
 mark_obstacle(Row, Column) ->
     Trans = 
         fun() ->
-            case Column of 
-                1 -> mnesia:write(#grid{row_number = Row, c1 = true});
-                2 -> mnesia:write(#grid{row_number = Row, c2 = true});
-                3 -> mnesia:write(#grid{row_number = Row, c3 = true});
-                4 -> mnesia:write(#grid{row_number = Row, c4 = true});
-                5 -> mnesia:write(#grid{row_number = Row, c5 = true});
+            [P] = mnesia:read(grid, Row),
+            case Column of
+                1 -> mnesia:write(P#grid{c1 = true});
+                2 -> mnesia:write(P#grid{c2 = true});
+                3 -> mnesia:write(P#grid{c3 = true});
+                4 -> mnesia:write(P#grid{c4 = true});
+                5 -> mnesia:write(P#grid{c5 = true});
                 _ -> io:format("Out of bound~n")
             end
         end,
